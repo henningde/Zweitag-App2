@@ -1,6 +1,8 @@
 <% @posts.each do |post| %>
 <li>
-  <span class="content"><%= link_to post.title, post.link, :target => "_blank"%>
+  <span class="content">
+<%= post.vote %>
+    <%= link_to post.title, post.link, :target => "_blank"%>
   </span>
       <span class="timestamp">
     Posted <%= time_ago_in_words(post.created_at) %> ago. from <%= post.user.email %>
