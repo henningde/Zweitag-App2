@@ -1,16 +1,16 @@
 <header class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
-      <%= link_to "Zweitag", root_path, id: "logo" %>
+      <%= link_to "Zweitag", "#", id: "logo" %>
       <nav>
         <ul class="nav pull-right">
-          <li><%= link_to "Home", root_path %></li>
+          <li><%= link_to "Home", "#" %></li>
            <% if signed_in? %>
-          <li><%= link_to 'New Link', new_post_path %></li>
+          <li><%= link_to 'New Link', "#new" %></li>
          
 
             <li id="fat-menu" class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <a href="#zrt" class="dropdown-toggle" data-toggle="dropdown">
                 Account <b class="caret"></b>
               </a>
               <ul class="dropdown-menu">

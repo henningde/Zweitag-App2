@@ -1,17 +1,24 @@
-<% @posts.each do |post| %>
-<li>
-  <span class="content">
-<%= post.vote %>
-    <%= link_to post.title, post.link, :target => "_blank"%>
-  </span>
-      <span class="timestamp">
-    Posted <%= time_ago_in_words(post.created_at) %> ago. from <%= post.user.email %>
-  </span>
-  <% if current_user?(post.user) %>
-    <%= link_to "delete", post, method: :delete,
-                                     data: { confirm: "You sure?" },
-                                     title: post.title %>
-  <% end %>
+<h1>Post</h1>
 
-</ul>
+<div id="posts">
+</div>
+
+<script type="text/json" id="bootstrap">
+  {
+    "posts": <%= @posts.to_json(include: 
+                                { user: { only: [:id, :email] } }) %>,
+    "users": <%= @users.to_json %>
+  }
+</script>
+
+<%= content_for :javascript do -%>
+  <script type="text/javascript">
+    $(function () {
+      var div = $('<div></div>');
+      div.html($('#bootstrap').text());
+      var data = JSON.parse(div.text());
+
+      ExampleApp.initialize(data);
+    });
+  </script>
 <% end %>

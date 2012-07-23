@@ -34,3 +34,6 @@ describe "user sign in" do
   end
 end
 end
+
+
+##ToDo Testen wenn ein Post angelegt und gelöscht wird
