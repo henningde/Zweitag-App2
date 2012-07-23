@@ -6,6 +6,7 @@ ExampleApp.Routers.Posts = Support.SwappingRouter.extend({
   },
 
   routes: {
+    ":id":          "vote",
     "":          "index",
     "new":       "newPost",
     "posts/:id": "show"
@@ -22,6 +23,13 @@ ExampleApp.Routers.Posts = Support.SwappingRouter.extend({
   var view = new ExampleApp.Views.PostsNew({ collection: this.collection, users: this.users });
   this.swap(view);
     
+  },
+
+
+  vote: function(taskId) {
+
+  var view = new ExampleApp.Views.PostsVote({ collection: this.collection, users: this.users });
+  this.swap(view);
   },
 
   show: function(taskId) {

@@ -10,4 +10,9 @@ class Post < ActiveRecord::Base
   	validates :link, presence: true, format: { with: VALID_EMAIL_REGEX }
  
  	default_scope order: 'posts.vote DESC'
+
+ 	def upvote!
+ 		self.vote ||= 0
+ 		self.vote+=1
+ 	end
 end

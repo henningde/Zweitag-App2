@@ -24,10 +24,15 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
     this.$('input').prop("checked", this.model.isComplete());
     this.$('.user_email').html(this.model.get('user')['email']);
     this.$('.created_at').html($.timeago(this.model.get('created_at')));
+this.$('.votes').html(this.model.get('vote'));
+
+    //this.$('.vote-link').attr("href", "#"+this.model.get('id'));
+    _this = this;
+     this.$('.vote-link').click(function(){_this.update(_this.model.get('id'));});
 
 
-    this.$('a').text(this.model.escape('title'));
-    this.$('a').attr("href", this.postUrl());
+    this.$('.post-link').text(this.model.escape('title'));
+    this.$('.post-link').attr("href", this.postUrl());
   },
 
   postUrl: function() {
@@ -37,8 +42,10 @@ return this.model.get('link');
     return "#posts/" + this.model.get('id');
   },
 
-  update: function() {
-    var complete = this.$('input').prop('checked');
+  update: function(id) {
+  
+    // var complete = this.$('input').prop('checked');
+    var complete = this.model.upvote(id);
     this.model.save({ complete: complete });
   }
 });

@@ -1,7 +1,13 @@
 ZweitagApp2::Application.routes.draw do
   devise_for :users
 
-  resources :posts
+  resources :posts  do
+    member do
+    post :upvote
+    post :downvote
+  end
+  end
+
   
   root :to => 'posts#index'
 

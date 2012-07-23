@@ -36,6 +36,17 @@ respond_to :html, :json
   end
 
   # GET /posts/1/edit
+  def upvote
+    @post = Post.find(params[:id])
+    @post.upvote!
+    @post.save
+    respond_to do |format|
+      format.json { render json: @post }
+    end
+
+  end
+
+  # GET /posts/1/edit
   def edit
     @post = Post.find(params[:id])
   end
