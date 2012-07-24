@@ -2,7 +2,8 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
   tagName: "tr",
 
   events: {
-    "change input": "update"
+    "click .upvote-link": "upvote",
+    "click .downvote-link": "downvote"
   },
 
   initialize: function() {
@@ -17,6 +18,7 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
   },
 
   renderFormContents: function() {
+    // console.log(this.model);
     this.$('label').attr("for", "post_completed_" + this.model.get('id'));
     this.$('label').html(this.model.escape('title'));
 
@@ -24,28 +26,39 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
     this.$('input').prop("checked", this.model.isComplete());
     this.$('.user_email').html(this.model.get('user')['email']);
     this.$('.created_at').html($.timeago(this.model.get('created_at')));
-this.$('.votes').html(this.model.get('vote'));
-
-    //this.$('.vote-link').attr("href", "#"+this.model.get('id'));
-    _this = this;
-     this.$('.vote-link').click(function(){_this.update(_this.model.get('id'));});
+this.$('.votes').html(this.model.get('calc_voting'));
 
 
-    this.$('.post-link').text(this.model.escape('title'));
+    this.$('.post-link').text(this.model.escape('title')+new Date().getTime());
     this.$('.post-link').attr("href", this.postUrl());
   },
 
   postUrl: function() {
-return this.model.get('link');
-
-
-    return "#posts/" + this.model.get('id');
+    return this.model.get('link');
+    // return "#posts/" + this.model.get('id');
   },
 
-  update: function(id) {
+  upvote: function() {
+
+    var newVote=this.model.upvote(this.model.get('id'));
+    this.model.set({ calc_voting: newVote });
+ this.render();
+
+
+
+    this.$('.upvote-link').text("");
+    this.$('.downvote-link').text("");
+
+  },
+
+  downvote: function() {
+    
+    var newVote=this.model.downvote(this.model.get('id'));
+    this.model.set({ calc_voting: newVote });
+    this.render();
+    
+    this.$('.upvote-link').text("");
+    this.$('.downvote-link').text("");
   
-    // var complete = this.$('input').prop('checked');
-    var complete = this.model.upvote(id);
-    this.model.save({ complete: complete });
   }
 });

@@ -12,7 +12,7 @@ ExampleApp.Views.PostsVote = Backbone.View.extend({
 
     _.bindAll(this, "render", "saved", "errord");
     this.newVote();
-       console.log(this.model);
+      
    
   },
 

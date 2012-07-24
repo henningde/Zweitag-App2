@@ -8,11 +8,18 @@ class Post < ActiveRecord::Base
 
   	VALID_EMAIL_REGEX = /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix
   	validates :link, presence: true, format: { with: VALID_EMAIL_REGEX }
- 
- 	default_scope order: 'posts.vote DESC'
+
+ 	# default_scope order: count_sub_parts
+
 
  	def upvote!
- 		self.vote ||= 0
- 		self.vote+=1
+ 		self.upvote ||= 0
+ 		self.upvote+=1
  	end
+ 	 	def downvote!
+ 		self.downvote ||= 0
+ 		self.downvote+=1
+ 	end
+
+
 end

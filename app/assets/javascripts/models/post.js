@@ -13,11 +13,37 @@ ExampleApp.Models.Post = Backbone.Model.extend({
   },
 
 
+
   upvote: function(id) {
-  	var test=$.post("/posts/"+id+"/upvote", { id: id } );
- this.model = new ExampleApp.Models.Post();
-console.log(test);
-//this.model.save({}, { success: this.saved ,error: this.errord });
-  	//this.set(data)
-  }
+var vote = null;
+
+
+$.ajax({
+  type: "POST",
+  url: "/posts/"+id+"/upvote",
+  data: { id: id },
+  async: false,
+}).done(function( data ) {
+  vote=((data.upvote*2)-(data.downvote*3));
+  
+});
+
+return vote;
+
+
+},
+  downvote: function(id) {
+var vote = null;
+$.ajax({
+  type: "POST",
+  url: "/posts/"+id+"/downvote",
+  data: { id: id },
+  async: false,
+}).done(function( data ) {
+  vote=((data.upvote*2)-(data.downvote*3));
+  
+});
+return vote;
+}
+
 });

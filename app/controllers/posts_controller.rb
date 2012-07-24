@@ -4,12 +4,15 @@ class PostsController < ApplicationController
 respond_to :html, :json
   before_filter :authenticate_user!
   def index
-    @posts = Post.all
+    @posts = Post.find(:all, :select => "* ,((COALESCE(upvote,0)*2)-(COALESCE(downvote,0)*3)) as calc_voting", :order => 'calc_voting DESC')
+
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @posts }
+      format.json { render json: @posts, include: { user: { only: [:id, :email] } } }
     end
   end
+
+
 
   # GET /posts/1
   # GET /posts/1.json
@@ -46,6 +49,17 @@ respond_to :html, :json
 
   end
 
+
+  # GET /posts/1/edit
+  def downvote
+    @post = Post.find(params[:id])
+    @post.downvote!
+    @post.save
+    respond_to do |format|
+      format.json { render json: @post }
+    end
+
+  end
   # GET /posts/1/edit
   def edit
     @post = Post.find(params[:id])
