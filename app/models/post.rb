@@ -23,8 +23,7 @@ class Post < ActiveRecord::Base
 
    	calc_voting= (upvote*2)-(downvote*3)
 
-    has_user_vote = Vote.where("post_id = ? and user_id= ?",self.id,user.id).count
-	# puts "fsdf #{self.id} fsdf #{self.current_user.email}  ---#{has_user_vote}"
+    has_user_vote = Vote.where("post_id = ? and user_id= ?",self.id,User.current.id).count
    hash.merge!(:calc_voting => calc_voting ,:has_user_vote => has_user_vote)
 	
 	end

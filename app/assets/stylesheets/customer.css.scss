@@ -235,3 +235,22 @@ aside {
     margin: 1px 1px;
   }
 }
+
+li{list-style-type:none;}
+.post-link, .votes
+{
+  font-size:18px;
+}
+
+a.upvote-link:link,a.upvote-link:visited{
+ 
+font-size:20px;
+color:#00FF00;
+}
+a.downvote-link:link,a.downvote-link:visited{
+font-size:20px;
+color:#FF0000;
+}
+
+a.upvote-link:hover,a.downvote-link:hover { text-decoration:none;}
+

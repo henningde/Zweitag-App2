@@ -33,13 +33,15 @@ this.$('.user_email').html(this.model.get('user')['email']);
 
 
     this.$('.created_at').html($.timeago(this.model.get('created_at')));
-this.$('.votes').html(this.model.get('calc_voting'));
+if(this.model.get('calc_voting')<0){var calc_voting=0}else{calc_voting=this.model.get('calc_voting')}
+
+this.$('.votes').html(calc_voting);
 
 // +new Date().getTime()
     this.$('.post-link').text(this.model.escape('title'));
     this.$('.post-link').attr("href", this.postUrl());
  
-
+this.$('.post-edit-link').attr("href", this.postEditUrl());
 
 // this.model.get('vote').strip.each(' ') {|s| console.log(s.strip) };
 
@@ -58,6 +60,10 @@ if (this.model.get('has_user_vote')>=1){
     // return "#posts/" + this.model.get('id');
   },
 
+  postEditUrl: function() {
+
+     return "#posts/" + this.model.get('id');
+  },
   upvote: function() {
 
     var newVote=this.model.upvote(this.model.get('id'));

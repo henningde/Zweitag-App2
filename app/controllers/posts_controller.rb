@@ -3,6 +3,8 @@ class PostsController < ApplicationController
   # GET /posts.json
 respond_to :html, :json
   before_filter :authenticate_user!
+
+  before_filter :set_current_user
   def index
  #  @posts = Post.find(:all, :select => "* ,((COALESCE(upvote,0)*2)-(COALESCE(downvote,0)*3)) as calc_voting", :order => 'calc_voting DESC')
 @posts = Post.all
@@ -117,5 +119,20 @@ respond_to :html, :json
       format.html { redirect_to posts_url }
       format.json { head :no_content }
     end
+  end
+
+
+    def as_json(*args)
+   hash = super(*args)
+   # binding.pry
+   upvote = Vote.where("post_id = ? and upvote= ?",self.id,true).count
+     downvote = Vote.where("post_id = ? and upvote= ?",self.id,false).count
+
+    calc_voting= (upvote*2)-(downvote*3)
+
+    has_user_vote = Vote.where("post_id = ? and user_id= ?",self.id,user.id).count
+  # puts "fsdf #{self.id} fsdf #{self.current_user.email}  ---#{has_user_vote}"
+   hash.merge!(:calc_voting => calc_voting ,:has_user_vote => has_user_vote)
+  
   end
 end

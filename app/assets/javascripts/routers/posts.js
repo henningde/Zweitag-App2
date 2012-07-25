@@ -9,7 +9,7 @@ ExampleApp.Routers.Posts = Support.SwappingRouter.extend({
     ":id":          "vote",
     "":          "index",
     "new":       "newPost",
-    "posts/:id": "show"
+    "posts/:id": "edit"
 
   },
 
@@ -33,7 +33,7 @@ console.log(this.collection);
   this.swap(view);
   },
 
-  show: function(taskId) {
+  edit: function(taskId) {
     var post = this.collection.get(taskId);
     var postsRouter = this;
     post.fetch({
