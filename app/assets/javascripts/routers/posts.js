@@ -15,7 +15,7 @@ ExampleApp.Routers.Posts = Support.SwappingRouter.extend({
 
   index: function() {
     var view = new ExampleApp.Views.PostsIndex({ collection: this.collection });
-
+console.log(this.collection);
     this.swap(view);
 
   },

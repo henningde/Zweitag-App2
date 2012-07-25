@@ -5,8 +5,7 @@ window.ExampleApp = {
   Routers: {},
      
      
-     
-  
+    
   initialize: function(data) {
 
 //data=this.loadData();
@@ -14,18 +13,27 @@ window.ExampleApp = {
 // console.log(data);
   this.users = new ExampleApp.Collections.Users(data.users);
 
-    this.posts = new ExampleApp.Collections.Posts(data.posts);
-    window.posts = this.posts;
+    this.posts1 = new ExampleApp.Collections.Posts(data.posts);
+  
  
 
-    new ExampleApp.Routers.Posts({ collection: this.posts, users: this.users });
+    new ExampleApp.Routers.Posts({ collection: this.posts1, users: this.users });
    
     if (!Backbone.history.started) {
       Backbone.history.start();
       Backbone.history.started = true;
     }
-  }
 
-//posts.fetch()
+  },
+
+  update: function() {
+var self=this;
+window.setTimeout(function() {  
+self.posts1.fetch();  
+    self.update();
+}, 5000); 
+    },
+    
+
 
 };

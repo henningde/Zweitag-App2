@@ -25,6 +25,7 @@ $.ajax({
   async: false,
 }).done(function( data ) {
   vote=((data.upvote*2)-(data.downvote*3));
+  vote=data.calc_voting
   
 });
 
@@ -41,6 +42,7 @@ $.ajax({
   async: false,
 }).done(function( data ) {
   vote=((data.upvote*2)-(data.downvote*3));
+  vote=data.calc_voting
   
 });
 return vote;

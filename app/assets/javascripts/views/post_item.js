@@ -18,6 +18,7 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
   },
 
   renderFormContents: function() {
+
     // console.log(this.model);
     this.$('label').attr("for", "post_completed_" + this.model.get('id'));
     this.$('label').html(this.model.escape('title'));
@@ -25,12 +26,31 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
     this.$('input').attr("id", "post_completed_" + this.model.get('id'));
     this.$('input').prop("checked", this.model.isComplete());
     this.$('.user_email').html(this.model.get('user')['email']);
+
+
+
+this.$('.user_email').html(this.model.get('user')['email']);
+
+
     this.$('.created_at').html($.timeago(this.model.get('created_at')));
 this.$('.votes').html(this.model.get('calc_voting'));
 
-
-    this.$('.post-link').text(this.model.escape('title')+new Date().getTime());
+// +new Date().getTime()
+    this.$('.post-link').text(this.model.escape('title'));
     this.$('.post-link').attr("href", this.postUrl());
+ 
+
+
+// this.model.get('vote').strip.each(' ') {|s| console.log(s.strip) };
+
+if (this.model.get('has_user_vote')>=1){
+  this.$('.upvote-link').text("");
+    this.$('.downvote-link').text("");
+  }
+
+
+
+
   },
 
   postUrl: function() {
