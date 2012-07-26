@@ -15,6 +15,7 @@ gem 'backbone-support'
 gem 'devise'
 gem 'haml'
 gem 'pry'
+gem "cancan"
 
 group :assets do
   gem "sass-rails", "~> 3.2.0"

@@ -23,6 +23,9 @@ class Post < ActiveRecord::Base
 
    	calc_voting= (upvote*2)-(downvote*3)
 
+if(calc_voting>0)
+  calc_voting+=calc_rang_by_date(self.created_at)
+end
     has_user_vote = Vote.where("post_id = ? and user_id= ?",self.id,User.current.id).count
    hash.merge!(:calc_voting => calc_voting ,:has_user_vote => has_user_vote)
 	
@@ -33,11 +36,32 @@ class Post < ActiveRecord::Base
  		self.upvote+=1
  		self.vote=self.vote+" #{self.user.id}"
  	end
- 	 	def downvote!
+ 	 
+   def downvote!
  		self.downvote ||= 0
  		self.downvote+=1
  		self.vote=self.vote+" #{self.user.id}"
  	end
 
+  def calc_rang_by_date(created_time)
+    created_time= created_time.to_time.to_i
+    time_now=Time.now.to_i
+    calc_time=(time_now-created_time)/60
+
+    ###kleiner als 1 Tag (24Std)
+    if calc_time<1440
+      return +2
+    ##älter als 1 Monat (30Tage)
+    elsif calc_time>43200
+      return -15
+    ##älter als 1 Woche (7Tagfe9)
+    elsif calc_time>10080 
+      return -8
+    ##älter als 1 Tag
+    elsif calc_time>1440 
+      return -3
+    end
+  
+  end
 
 end

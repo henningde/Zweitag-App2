@@ -7,7 +7,7 @@ window.ExampleApp = {
      
     
   initialize: function(data) {
-
+    this.data = data;
 //data=this.loadData();
 //console.log(data);
 // console.log(data);

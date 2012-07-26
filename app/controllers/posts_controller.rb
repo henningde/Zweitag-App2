@@ -2,16 +2,22 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
 respond_to :html, :json
-  before_filter :authenticate_user!
+ before_filter :authenticate_user!
+
+# rescue_from CanCan::AccessDenied do |exception|  
+#   render json: {:status => :AccessDenied}
+
+# end  
 
   before_filter :set_current_user
   def index
- #  @posts = Post.find(:all, :select => "* ,((COALESCE(upvote,0)*2)-(COALESCE(downvote,0)*3)) as calc_voting", :order => 'calc_voting DESC')
-@posts = Post.all
+     #  @posts = Post.find(:all, :select => "* ,((COALESCE(upvote,0)*2)-(COALESCE(downvote,0)*3)) as calc_voting", :order => 'calc_voting DESC')
+    @posts = Post.all
+    #authorize! :read, @posts
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @posts,include: { vote: { only: [:id] } } ,include: { user: { only: [:id, :email] } } }
+      format.json { render json: @posts,include: { user: { only: [:id, :email] } } }
     end
   end
 
@@ -73,7 +79,12 @@ respond_to :html, :json
   def create
  
 
- respond_with(current_user.posts.create(params[:post]))
+    @posts=current_user.posts.create(params[:post])
+
+
+      respond_with(@posts,include: { user: { only: [:id, :email] } })
+
+
     # @post = current_user.posts.build(params[:post])
 
     # respond_to do |format|
@@ -92,10 +103,13 @@ respond_to :html, :json
   def update
 
 
-  task = current_user.posts.find(params[:id])
-    task.update_attributes(params[:task])
-    respond_with(task)
+    post = Post.find(params[:id])
 
+    authorize! :update, post
+
+
+    post.update_attributes(params[:post])
+    respond_with(post)
     # @post = Post.find(params[:id])
 
     # respond_to do |format|
@@ -113,26 +127,12 @@ respond_to :html, :json
   # DELETE /posts/1.json
   def destroy
     @post = Post.find(params[:id])
+    authorize! :delete, @post
     @post.destroy
-
-    respond_to do |format|
-      format.html { redirect_to posts_url }
-      format.json { head :no_content }
-    end
+render :json => @post
+ 
   end
 
 
-    def as_json(*args)
-   hash = super(*args)
-   # binding.pry
-   upvote = Vote.where("post_id = ? and upvote= ?",self.id,true).count
-     downvote = Vote.where("post_id = ? and upvote= ?",self.id,false).count
 
-    calc_voting= (upvote*2)-(downvote*3)
-
-    has_user_vote = Vote.where("post_id = ? and user_id= ?",self.id,user.id).count
-  # puts "fsdf #{self.id} fsdf #{self.current_user.email}  ---#{has_user_vote}"
-   hash.merge!(:calc_voting => calc_voting ,:has_user_vote => has_user_vote)
-  
-  end
 end

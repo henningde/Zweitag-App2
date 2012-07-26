@@ -4,7 +4,6 @@ ExampleApp.Views.PostsNew = Backbone.View.extend({
 
   events: {
     "submit": "save",
-    "click a.add-assignee": "addAssignee"
   },
 
   initialize: function(options) {
@@ -17,24 +16,24 @@ ExampleApp.Views.PostsNew = Backbone.View.extend({
     this.model = new ExampleApp.Models.Post();
   },
 
-  addAssignee: function() {
-    this.$('ul.assignees').append(JST['posts/assignee_field']());
-    return false;
-  },
+
 
   render: function () {
     
     this.$el.html(JST['posts/form_fields']());
 
+    this.$('.title-form').html("New Link");
     this.$('input[name=title]').focus();
+    //this.$('input[name=link]').val("http://www.dasdasd.de");
     this.$('input[name=link]').focus();
     return this;
   },
 
   renderFlash: function(flashText,type) {
-    console.log(this.$(".flash"));
+  
     this.$(".flash").remove();
-    this.$el.prepend(JST['posts/flash']({ flashText: flashText, type: type }));
+    this.$('.flash-place').html(JST['posts/flash']({ flashText: flashText, type: type }));
+   // this.$el.prepend(JST['posts/flash']({ flashText: flashText, type: type }));
   },
 
   save: function(e) {
@@ -56,7 +55,7 @@ ExampleApp.Views.PostsNew = Backbone.View.extend({
 
 
   saved: function() {
-    var flash = "Neuer Link wurde erstellt " + this.model.escape('title');  
+    var flash = "Create Link: " + this.model.escape('title');  
     this.collection.add(this.model);
     this.newPost();
     this.render();

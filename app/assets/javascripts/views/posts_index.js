@@ -6,6 +6,8 @@ ExampleApp.Views.PostsIndex = Support.CompositeView.extend({
 
   },
 
+
+
   render: function () {
    asd = this.collection.sortBy(function(user){
     //console.log(user.attributes.upvote);
@@ -30,9 +32,9 @@ ExampleApp.Views.PostsIndex = Support.CompositeView.extend({
     var self = this;
     this.collection.each(function(post) {
       post.off(null,null, self);
-      post.on("change", self.render, self);
+      post.on("all", self.render, self);
 
-      var row = new ExampleApp.Views.PostItem({ model: post});
+      var row = new ExampleApp.Views.PostItem({ model: post,collection: self.collection,});
       self.renderChild(row);
       self.$('.inhalt').append(row.el);
     });
