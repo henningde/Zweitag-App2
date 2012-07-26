@@ -4,6 +4,11 @@
       <%= link_to "Zweitag", "#", id: "logo" %>
       <nav>
         <ul class="nav pull-right">
+          <% if signed_in? %>
+  
+<li><%= link_to "Welcome #{current_user.email}", "#" %></li>
+  <% end %>
+
           <li><%= link_to "Home", "#" %></li>
            <% if signed_in? %>
           <li><%= link_to 'New Link', "#new" %></li>
@@ -19,6 +24,7 @@
                 <li>
                   <%= link_to "Sign out", destroy_user_session_path, method: "delete" %>
                 </li>
+          
               </ul>
             </li>
           <% else %>

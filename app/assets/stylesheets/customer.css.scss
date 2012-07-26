@@ -240,9 +240,11 @@ aside {
     margin: 1px 1px;
   }
 }
+li{list-style-type:none;}
 
-.inhalt li{list-style-type:none;
-padding-bottom: 15px;}
+.inhalt li{
+padding-bottom: 15px;
+}
 
 
 .post-link
@@ -287,10 +289,9 @@ a.upvote-link:hover,a.downvote-link:hover { text-decoration:none;}
 
 .vote-buttons{
 float: left;
-  width: 35px;
+  width: 40px;
 }
 
 .description{
   padding-left: 15px;
 }
-
