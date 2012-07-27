@@ -1,15 +1,15 @@
 source 'http://rubygems.org'
 
 
-#gem 'sqlite3', '~> 1.3.5'
+gem 'sqlite3', '~> 1.3.5'
 
 gem 'rails-backbone', '~> 0.7.0'
 gem 'jquery-rails'
 gem 'ejs'
 gem "flutie", "~> 1.3.2"
 gem 'bootstrap-sass', '2.0.0'
-#gem "clearance", "~> 0.13.0"
-#gem 'paperclip'
+gem "clearance", "~> 0.13.0"
+gem 'paperclip'
 gem 'rabl'
 gem 'backbone-support'
 gem 'devise'

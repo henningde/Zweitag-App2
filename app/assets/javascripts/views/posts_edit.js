@@ -31,8 +31,8 @@ ExampleApp.Views.PostsEdit = Backbone.View.extend({
   renderFlash: function(flashText,type) {
 
     this.$(".flash").remove();
-    this.$('.flash-place').html(JST['posts/flash']({ flashText: flashText, type: type }));
-  
+    $('.flash-place').html(JST['posts/flash']({ flashText: flashText, type: type }));
+    $('.flash-place').fadeIn();
    // this.$el.prepend(JST['posts/flash']({ flashText: flashText, type: type }));
   },
 
@@ -67,6 +67,7 @@ ExampleApp.Views.PostsEdit = Backbone.View.extend({
 errord: function(jqXHR, response, errorThrown) {
 
   if(response.status==422){
+    this.renderFlash("Can't changed Link ",'error');
     this.attributesWithErrors = JSON.parse(response.responseText);
     var flash;
     this.$(".flash").remove();
@@ -75,7 +76,9 @@ errord: function(jqXHR, response, errorThrown) {
       
       $("label[for='new-task-"+key+"']").append(JST['posts/flash']({ flashText: num[0], type: 'error' }));
       $("#new-task-"+key).css("background-color","red");
+      
     });
+
   }else if(response.status==500){
       var flash = "Access denied";  
       this.renderFlash(flash,'error');

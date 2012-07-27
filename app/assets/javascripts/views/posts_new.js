@@ -32,7 +32,8 @@ ExampleApp.Views.PostsNew = Backbone.View.extend({
   renderFlash: function(flashText,type) {
   
     this.$(".flash").remove();
-    this.$('.flash-place').html(JST['posts/flash']({ flashText: flashText, type: type }));
+    $('.flash-place').html(JST['posts/flash']({ flashText: flashText, type: type }));
+    $('.flash-place').fadeIn();
    // this.$el.prepend(JST['posts/flash']({ flashText: flashText, type: type }));
   },
 
@@ -68,6 +69,7 @@ ExampleApp.Views.PostsNew = Backbone.View.extend({
 
 
 errord: function(jqXHR, response, errorThrown) {
+  console.log(response.responseText);
   this.attributesWithErrors = JSON.parse(response.responseText);
   var flash;
   this.$(".flash").remove();

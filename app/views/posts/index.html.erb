@@ -1,3 +1,4 @@
+
 <h1>Link-List</h1>
 
 <div id="posts">
@@ -6,8 +7,10 @@
 <script type="text/json" id="bootstrap">
   {
     "posts": <%= @posts.to_json(include: 
-                                { user: { only: [:id, :email] } }) %>,
+                                { user: { only: [:id, :email] } , comments: { only: [:id, :comment] } }) %>,
     "users": <%= @users.to_json %>,
+    
+    "comments": <%= @comments.to_json %>,
     "current_user_id":<%= current_user.id %>
   }
 </script>
@@ -20,7 +23,7 @@
       var data = JSON.parse(div.text());
 
       ExampleApp.initialize(data);
-     ExampleApp.update();
+    // ExampleApp.update();
     });
   </script>
 <% end %>

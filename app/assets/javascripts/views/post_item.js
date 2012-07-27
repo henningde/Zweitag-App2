@@ -4,7 +4,9 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
   events: {
     "click .upvote-link": "upvote",
     "click .downvote-link": "downvote",
-    "click a.delete": "delete"
+    "click a.delete": "delete",
+    "click a.post-add-comment": "addandremcommentbox",
+    "click input.submit": "comment"
   },
 
 
@@ -18,6 +20,7 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
 
     this.$el.html(JST['posts/item']({ task: this.model }));
     this.renderFormContents();
+  //  this.renderComments();
     return this;
   },
 
@@ -40,11 +43,27 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
 
     this.$('.post-edit-link').text();
 
+var test=this.model.get('comments');
+
+
+var self=this;
+
+
+  _.each(test, function (num, key){
+ 
+var comment= JST['posts/comment']({ comment: num["comment"] });
+ self.$('.content_comments').append(comment);
+});
 
 // +new Date().getTime()
     this.$('.post-link').text(this.model.escape('title'));
     this.$('.post-link').attr("href", this.postUrl());
  
+this.$('.post-add-comment').text("Comment");
+
+
+
+
 
 
      if(ExampleApp.data.current_user_id==this.model.get('user')['id']) {
@@ -70,6 +89,12 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
     }
 
   },
+
+
+
+
+
+
 
   postUrl: function() {
     return this.model.get('link');
@@ -103,11 +128,39 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
     this.$('.downvote-link').text("");
   
   },
+addandremcommentbox: function(){
+
+
+  this.$('.commentarea').toggle();
+},
+  comment: function() {
+var self=this;
+    var newComment=this.model.comment(this.model.get('id'),this.$('.commentbox').val(), function(data) {
+    
+
+        self.model.set({ comments: data.comments });
+
+        self.render();
+        self.renderFlash("Comment was created",'success');
+
+
+
+  },function( data ) {
+
+attributesWithErrors = JSON.parse(data.responseText);
+self.renderFlash(attributesWithErrors['comment'][0],'error');
+    
+  })
+
+
+  },
+
 
   renderFlash: function(flashText,type) {
   
     this.$(".flash").remove();
-    this.$('.flash-place').html(JST['posts/flash']({ flashText: flashText, type: type }));
+    $('.flash-place').html(JST['posts/flash']({ flashText: flashText, type: type }));
+    $('.flash-place').fadeIn();
    // this.$el.prepend(JST['posts/flash']({ flashText: flashText, type: type }));
   },
 

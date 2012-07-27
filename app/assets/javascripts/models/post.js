@@ -1,5 +1,6 @@
 ExampleApp.Models.Post = Backbone.Model.extend({
   initialize: function() {
+   
   },
 
   urlRoot: '/posts',
@@ -46,6 +47,25 @@ $.ajax({
   
 });
 return vote;
+},
+
+  comment: function(id,comments, callback, errorcallback) {
+  //  var returncomment = null;
+    $.ajax({
+      type: "POST",
+      url: "/posts/"+id+"/comment",
+      data: { id: id,comment: comments},
+      success: callback,
+      error: errorcallback,
+      })
+
+  //.done(function( data ) {
+  // vote=((data.upvote*2)-(data.downvote*3));
+
+  //returncomment=data
+  
+//});
+//return returncomment;
 }
 
 });
