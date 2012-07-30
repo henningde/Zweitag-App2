@@ -1,3 +1,6 @@
+//TODO: In general, the new and edit views for the post model seem to share
+//a lot of functionality - maybe you could use this to your advantage with some inheritance mechanisms?
+
 ExampleApp.Views.PostsEdit = Backbone.View.extend({
   tagName: 'form',
   id: "edit-post",
@@ -12,7 +15,7 @@ ExampleApp.Views.PostsEdit = Backbone.View.extend({
     
   },
 
-
+  //TODO: This does not seem to be needed?
   addAssignee: function() {
     this.$('ul.assignees').append(JST['posts/assignee_field']());
     return false;

@@ -1,3 +1,4 @@
+//TODO: Einrücken
 ExampleApp.Models.Post = Backbone.Model.extend({
   initialize: function() {
    
@@ -15,6 +16,8 @@ ExampleApp.Models.Post = Backbone.Model.extend({
 
 
 
+  //TODO: I don't get why you use id as a parameter here
+  //Can't you use this.get("id") for that purpose?
   upvote: function(id) {
 var vote = null;
 
@@ -34,6 +37,9 @@ return vote;
 
 
 },
+
+  //TODO: I don't get why you use id as a parameter here
+  //Can't you use this.get("id") for that purpose?
   downvote: function(id) {
 var vote = null;
 $.ajax({

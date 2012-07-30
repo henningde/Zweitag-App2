@@ -39,6 +39,8 @@ ExampleApp.Views.PostsIndex = Support.CompositeView.extend({
       //TODO: I know I proposed this,
       //but we might want to find a cleaner way
       //for the KaP app.
+      //Example: We might want to set a collection attribute on a post when
+      //creating it - then it could trigger an event on the collection when changed.
       post.off(null,null, self);
       post.on("all", self.render, self);
 

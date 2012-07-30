@@ -23,6 +23,9 @@ ExampleApp.Views.PostsNew = Backbone.View.extend({
     this.$el.html(JST['posts/form_fields']());
 
     this.$('.title-form').html("New Link");
+    //TODO: Why do you focus on two for elements? Only the last one
+    //you focus on will be the focused element in the end.
+    //
     this.$('input[name=title]').focus();
     //this.$('input[name=link]').val("http://www.dasdasd.de");
     this.$('input[name=link]').focus();
