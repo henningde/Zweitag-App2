@@ -12,14 +12,12 @@ ExampleApp.Views.PostsEdit = Backbone.View.extend({
     
   },
 
-
   addAssignee: function() {
     this.$('ul.assignees').append(JST['posts/assignee_field']());
     return false;
   },
 
   render: function () {
-    
     this.$el.html(JST['posts/form_fields']());
     this.$('input[name=submit]').val("Update url");
     this.$('.title-form').html("Edit Link "+this.model.get('title'));
@@ -40,53 +38,43 @@ ExampleApp.Views.PostsEdit = Backbone.View.extend({
     e.preventDefault();
     this.commitForm();
     this.model.save({}, { success: this.saved ,error: this.errord });
-
     return false;
   },
 
   commitForm: function() {
     this.model.set({ title: this.$('input[name=title]').val() });
-    this.model.set({ link: this.$('input[name=link]').val() });
-  
+    this.model.set({ link: this.$('input[name=link]').val() });  
   },
-
-
 
   saved: function() {
     var flash = "Link will be changed: " + this.model.escape('title');  
-
     this.render();
     this.renderFlash(flash,'success');
   },
 
+  errord: function(jqXHR, response, errorThrown) {
 
+    if(response.status==422){
+      this.renderFlash("Can't changed Link ",'error');
+      this.attributesWithErrors = JSON.parse(response.responseText);
+      var flash;
+      this.$(".flash").remove();
+      $("input").css("background-color","");
+      _.each(this.attributesWithErrors["errors"], function (num, key){
+        
+        $("label[for='new-task-"+key+"']").append(JST['posts/flash']({ flashText: num[0], type: 'error' }));
+        $("#new-task-"+key).css("background-color","red");
+        
+      });
 
-
-
-
-errord: function(jqXHR, response, errorThrown) {
-
-  if(response.status==422){
-    this.renderFlash("Can't changed Link ",'error');
-    this.attributesWithErrors = JSON.parse(response.responseText);
-    var flash;
-    this.$(".flash").remove();
-    $("input").css("background-color","");
-    _.each(this.attributesWithErrors["errors"], function (num, key){
-      
-      $("label[for='new-task-"+key+"']").append(JST['posts/flash']({ flashText: num[0], type: 'error' }));
-      $("#new-task-"+key).css("background-color","red");
-      
-    });
-
-  }else if(response.status==500){
+    }else if(response.status==500){
       var flash = "Access denied";  
       this.renderFlash(flash,'error');
 
-  }else{
-    var flash = "Error!";  
+    }else{
+      var flash = "Error!";  
       this.renderFlash(flash,'error');
-  }
+    }
 
   }
 });

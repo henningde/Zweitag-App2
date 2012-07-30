@@ -6,26 +6,19 @@ ExampleApp.Views.PostsIndex = Support.CompositeView.extend({
 
   },
 
-
-
   render: function () {
-   asd = this.collection.sortBy(function(user){
+    asd = this.collection.sortBy(function(user){
     //console.log(user.attributes.upvote);
-    return (user.attributes.calc_voting*-1);
+      return (user.attributes.calc_voting*-1);
     });
-
     this.collection.reset(asd, {silent: true});
-
     this.renderTemplate();
     this.renderPosts();
     return this;
   },
 
   renderTemplate: function() {
-
-
-    this.$el.html(JST['posts/index']({ posts: this.collection }));
-   
+    this.$el.html(JST['posts/index']({ posts: this.collection })); 
   },
 
   renderPosts: function() {

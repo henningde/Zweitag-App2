@@ -9,8 +9,6 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
     "click input.submit": "comment"
   },
 
-
-
   initialize: function() {
     _.bindAll(this, "render","delete", "deleted", "errord");
   },
@@ -33,7 +31,6 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
     this.$('input').attr("id", "post_completed_" + this.model.get('id'));
     this.$('input').prop("checked", this.model.isComplete());
 
-
     this.$('.user_email').html(this.model.get('user')['email']);
 
     this.$('.created_at').html($.timeago(this.model.get('created_at')));
@@ -43,28 +40,20 @@ ExampleApp.Views.PostItem = Support.CompositeView.extend({
 
     this.$('.post-edit-link').text();
 
-var test=this.model.get('comments');
+    var test=this.model.get('comments');
+    var self=this;
 
-
-var self=this;
-
-
-  _.each(test, function (num, key){
+    _.each(test, function (num, key){
  
-var comment= JST['posts/comment']({ comment: num["comment"] });
- self.$('.content_comments').append(comment);
-});
+      var comment= JST['posts/comment']({ comment: num["comment"] });
+      self.$('.content_comments').append(comment);
+    });
 
 // +new Date().getTime()
     this.$('.post-link').text(this.model.escape('title'));
     this.$('.post-link').attr("href", this.postUrl());
  
-this.$('.post-add-comment').text("Comment");
-
-
-
-
-
+    this.$('.post-add-comment').text("Comment");
 
      if(ExampleApp.data.current_user_id==this.model.get('user')['id']) {
         this.$('.vote-buttons').html("<a class=\"post-edit-link\" href=\"#\">[E]</a><a class=\"delete\" href=\"#\">[X]</a>");
@@ -77,10 +66,6 @@ this.$('.post-add-comment').text("Comment");
         this.$('.post-edit-link').text("");
     }
 
-
-
-
-
 // this.model.get('vote').strip.each(' ') {|s| console.log(s.strip) };
 
     if (this.model.get('has_user_vote')>=1){
@@ -90,23 +75,15 @@ this.$('.post-add-comment').text("Comment");
 
   },
 
-
-
-
-
-
-
   postUrl: function() {
     return this.model.get('link');
     // return "#posts/" + this.model.get('id');
   },
 
   postEditUrl: function() {
-
      return "#posts/" + this.model.get('id');
   },
   upvote: function() {
-
     var newVote=this.model.upvote(this.model.get('id'));
     this.model.set({ calc_voting: newVote });
     this.model.set({ has_user_vote: 1 });
@@ -118,7 +95,6 @@ this.$('.post-add-comment').text("Comment");
   },
 
   downvote: function() {
-    
     var newVote=this.model.downvote(this.model.get('id'));
     this.model.set({ calc_voting: newVote });
     this.model.set({ has_user_vote: 1 });
@@ -128,33 +104,26 @@ this.$('.post-add-comment').text("Comment");
     this.$('.downvote-link').text("");
   
   },
-addandremcommentbox: function(){
 
-
-  this.$('.commentarea').toggle();
-},
+  addandremcommentbox: function(){
+    this.$('.commentarea').toggle();
+  },
   comment: function() {
-var self=this;
+    var self=this;
     var newComment=this.model.comment(this.model.get('id'),this.$('.commentbox').val(), function(data) {
+
+      self.model.set({ comments: data.comments });
+      self.render();
+      self.renderFlash("Comment was created",'success');
+
+    },function( data ) {
+
+      attributesWithErrors = JSON.parse(data.responseText);
+      self.renderFlash(attributesWithErrors['comment'][0],'error');
     
-
-        self.model.set({ comments: data.comments });
-
-        self.render();
-        self.renderFlash("Comment was created",'success');
-
-
-
-  },function( data ) {
-
-attributesWithErrors = JSON.parse(data.responseText);
-self.renderFlash(attributesWithErrors['comment'][0],'error');
-    
-  })
-
+    })
 
   },
-
 
   renderFlash: function(flashText,type) {
   
@@ -167,8 +136,6 @@ self.renderFlash(attributesWithErrors['comment'][0],'error');
 
   delete: function() {
     this.model.destroy( { success: this.deleted ,error: this.errord ,wait:true});
-
-
   },
 
   deleted: function() {
@@ -176,7 +143,6 @@ self.renderFlash(attributesWithErrors['comment'][0],'error');
     this.render();
     this.renderFlash(flash,'success');
   },
-
 
   errord: function(jqXHR, response, errorThrown) {
     if(response.status==422){
@@ -200,5 +166,3 @@ self.renderFlash(attributesWithErrors['comment'][0],'error');
 
   }
 });
-
-

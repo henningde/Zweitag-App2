@@ -14,11 +14,10 @@ respond_to :html, :json
      #  @posts = Post.find(:all, :select => "* ,((COALESCE(upvote,0)*2)-(COALESCE(downvote,0)*3)) as calc_voting", :order => 'calc_voting DESC')
     @posts = Post.all
     #authorize! :read, @posts
-@comments = Comment.all
+    @comments = Comment.all
     respond_to do |format|
-      format.html # index.html.erb
-  format.json { render json: @posts,include: { user: { only: [:id, :email] },comment: { only: [:id, :comment] } } }
-   
+    format.html # index.html.erb
+    format.json { render json: @posts,include: { user: { only: [:id, :email] },comment: { only: [:id, :comment] } } }
     end
   end
 
@@ -29,7 +28,6 @@ respond_to :html, :json
   def show
 
     @post = Post.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @posts }
@@ -40,7 +38,6 @@ respond_to :html, :json
   # GET /posts/new.json
   def new
     @post = Post.new()
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @post }
@@ -75,17 +72,14 @@ respond_to :html, :json
     # GET /posts/1/edit
   def comment
     @comment = Comment.new(post_id:params[:id], user_id:current_user.id,comment:params[:comment] )
-     respond_to do |format|
-    if @comment.save
-      @post = Post.find(params[:id])
-     
-        format.json { render json: @post,include: { user: { only: [:id, :email] },comments: { only: [:id, :comment] } } }
-      
-    else
-
-      format.json { render json: @comment.errors,:status => :unprocessable_entity }
+    respond_to do |format|
+      if @comment.save
+        @post = Post.find(params[:id])  
+        format.json { render json: @post,include: { user: { only: [:id, :email] },comments: { only: [:id, :comment] } } }  
+      else
+        format.json { render json: @comment.errors,:status => :unprocessable_entity }
+      end
     end
-  end
 
   end
   # GET /posts/1/edit
@@ -96,12 +90,8 @@ respond_to :html, :json
   # POST /posts
   # POST /posts.json
   def create
- 
-
     @posts=current_user.posts.create(params[:post])
-
-
-      respond_with(@posts,include: { user: { only: [:id, :email] } })
+    respond_with(@posts,include: { user: { only: [:id, :email] } })
 
 
     # @post = current_user.posts.build(params[:post])
@@ -121,25 +111,21 @@ respond_to :html, :json
   # PUT /posts/1.json
   def update
 
-
     post = Post.find(params[:id])
-
     authorize! :update, post
-
-
     post.update_attributes(params[:post])
     respond_with(post)
-    # @post = Post.find(params[:id])
+      # @post = Post.find(params[:id])
 
-    # respond_to do |format|
-    #   if @post.update_attributes(params[:post])
-    #     format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-    #     format.json { head :no_content }
-    #   else
-    #     format.html { render action: "edit" }
-    #     format.json { render json: @post.errors, status: :unprocessable_entity }
-    #   end
-    # end
+      # respond_to do |format|
+      #   if @post.update_attributes(params[:post])
+      #     format.html { redirect_to @post, notice: 'Post was successfully updated.' }
+      #     format.json { head :no_content }
+      #   else
+      #     format.html { render action: "edit" }
+      #     format.json { render json: @post.errors, status: :unprocessable_entity }
+      #   end
+      # end
   end
 
   # DELETE /posts/1
@@ -148,10 +134,7 @@ respond_to :html, :json
     @post = Post.find(params[:id])
     authorize! :delete, @post
     @post.destroy
-render :json => @post
- 
+    render :json => @post
   end
-
-
 
 end
