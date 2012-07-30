@@ -9,6 +9,7 @@ ExampleApp.Routers.Posts = Support.SwappingRouter.extend({
     "":          "index",
     "new":       "newPost",
     "posts/:id": "edit"
+
   },
 
 
@@ -24,6 +25,7 @@ ExampleApp.Routers.Posts = Support.SwappingRouter.extend({
     $('.flash-place').fadeOut();
     this.swap(view);    
   },
+
 
   edit: function(taskId) {
     var post = this.collection.get(taskId);

@@ -5,6 +5,7 @@ class Ability
 
 
    
+    #TODO: Why is a user not allowed to create a Post?
     if user
       # can :create, Post
       # can :read, :all

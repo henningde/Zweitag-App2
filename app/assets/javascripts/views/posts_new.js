@@ -16,8 +16,12 @@ ExampleApp.Views.PostsNew = Backbone.View.extend({
     this.model = new ExampleApp.Models.Post();
   },
 
+
+
   render: function () {
+    
     this.$el.html(JST['posts/form_fields']());
+
     this.$('.title-form').html("New Link");
     this.$('input[name=title]').focus();
     //this.$('input[name=link]').val("http://www.dasdasd.de");
@@ -25,7 +29,8 @@ ExampleApp.Views.PostsNew = Backbone.View.extend({
     return this;
   },
 
-  renderFlash: function(flashText,type) { 
+  renderFlash: function(flashText,type) {
+  
     this.$(".flash").remove();
     $('.flash-place').html(JST['posts/flash']({ flashText: flashText, type: type }));
     $('.flash-place').fadeIn();
@@ -34,14 +39,18 @@ ExampleApp.Views.PostsNew = Backbone.View.extend({
 
   save: function(e) {
     e.preventDefault();
+
     this.commitForm();
+
     this.model.save({}, { success: this.saved ,error: this.errord });
+
     return false;
   },
 
   commitForm: function() {
     this.model.set({ title: this.$('input[name=title]').val() });
-    this.model.set({ link: this.$('input[name=link]').val() });  
+    this.model.set({ link: this.$('input[name=link]').val() });
+  
   },
 
 
@@ -54,17 +63,22 @@ ExampleApp.Views.PostsNew = Backbone.View.extend({
     this.renderFlash(flash,'success');
   },
 
-  errord: function(jqXHR, response, errorThrown) {
-    console.log(response.responseText);
-    this.attributesWithErrors = JSON.parse(response.responseText);
-    var flash;
-    this.$(".flash").remove();
-    $("input").css("background-color","");
-    _.each(this.attributesWithErrors["errors"], function (num, key){
-      
-      $("label[for='new-task-"+key+"']").append(JST['posts/flash']({ flashText: num[0], type: 'error' }));
-      $("#new-task-"+key).css("background-color","red");
-    });
+
+
+
+
+
+errord: function(jqXHR, response, errorThrown) {
+  console.log(response.responseText);
+  this.attributesWithErrors = JSON.parse(response.responseText);
+  var flash;
+  this.$(".flash").remove();
+  $("input").css("background-color","");
+  _.each(this.attributesWithErrors["errors"], function (num, key){
+    
+    $("label[for='new-task-"+key+"']").append(JST['posts/flash']({ flashText: num[0], type: 'error' }));
+    $("#new-task-"+key).css("background-color","red");
+  });
 
 
   }

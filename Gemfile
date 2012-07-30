@@ -8,6 +8,7 @@ gem 'jquery-rails'
 gem 'ejs'
 gem "flutie", "~> 1.3.2"
 gem 'bootstrap-sass', '2.0.0'
+gem "clearance", "~> 0.13.0"
 gem 'paperclip'
 gem 'rabl'
 gem 'backbone-support'
